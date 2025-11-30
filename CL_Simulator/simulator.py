@@ -9,11 +9,11 @@ teams = [
     {"name": 'Dortmund', "rating": 89},
     {"name": 'Chelsea', "rating": 91},
     {"name": 'Sporting', "rating": 88}
-]
-
-#     ({"name": 'Manchester City', "rating": 94},    {"name": 'Atalanta', "rating": 87},
-#      {"name": 'Newcastle', "rating": 89},)
-#     {"name": 'Atlético Madrid', "rating": 88},    {"name": 'Liverpool', "rating": 93},
+    # {"name": 'Manchester City', "rating": 94},    {"name": 'Atalanta', "rating": 87},
+     # {"name": 'Newcastle', "rating": 89},
+     #{"name": 'Atlético Madrid', "rating": 88}
+    ]
+   # {"name": 'Liverpool', "rating": 93},
 # {"name": 'Galatasaray', "rating": 82},
 #     {"name": 'PSV', "rating": 81},    {"name": 'Tottenham', "rating": 88},    {"name": 'Leverkusen', "rating": 89},
 #     {"name": 'Barcelona', "rating": 90},    {"name": 'Qarabag', "rating": 67},    {"name": 'Napoli', "rating": 85},
@@ -57,7 +57,7 @@ class League:
                 return team
         return None  # if not found
 
-    def generate_schedule(self, matches_per_team=4):
+    def generate_schedule(self, matches_per_team=3):
         self.fixtures = []
         team_names = [team.name for team in self.teams]
 
@@ -68,12 +68,12 @@ class League:
             # chooses 2 different teams
             t1, t2 = random.sample(team_names, 2)
 
-            # print("Trying:", t1, t2)
-
+            # only play if not played already
             if (t2 not in opponents_played[t1] and
                 matches_played[t1] < matches_per_team and
                 matches_played[t2] < matches_per_team):
 
+                # decide home and away
                 if random.random() < 0.5:
                     home, away = t1, t2
                 else:
@@ -86,16 +86,17 @@ class League:
                 self.fixtures.append((home_team_dict, away_team_dict))
 
 
-
+                # add info to teams playing
                 matches_played[t1] += 1
                 matches_played[t2] += 1
                 opponents_played[t1].add(t2)
                 opponents_played[t2].add(t1)
 
-                if matches_played[t1] == 8:
+                # if teams already played 8 matches, remove them
+                if matches_played[t1] == matches_per_team:
                     team_names.remove(t1)
 
-                if matches_played[t2] == 8:
+                if matches_played[t2] == matches_per_team:
                     team_names.remove(t2)
 
                 print(f'Home {home} and Away {away}')
@@ -103,6 +104,9 @@ class League:
 
 
                 print(len(self.fixtures))
+
+            print(f'Teams left: {team_names}')
+            print(f'Matches for teams left: {matches_played}')
 
 
 

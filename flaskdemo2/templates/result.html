@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Area Result</title>
+</head>
+<body>
+    <h1>Area Result</h1>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% else %}
+        <p>Width: {{ width }}</p>
+        <p>Height: {{ height }}</p>
+        <h2>Area: {{ area }}</h2>
+    {% endif %}
+
+    <br>
+    <a href="/">Calculate again</a>
+</body>
+</html>
